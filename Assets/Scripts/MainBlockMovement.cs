@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MainBlockMovement : MonoBehaviour
-{ // çalışmıyor lan NEDENNNNN
+{ 
+    /*
+     *    REWRITE THE CODE WITH UNITY'S NEW TOUCH INPUT SYSTEM
+     */
     private Touch touch;
     
     private Vector2 touchStartPosition;
@@ -60,7 +63,7 @@ public class MainBlockMovement : MonoBehaviour
            for (int i = 0; i <= turnDegree; i++) // these places are probably where the bug occurs
            {
                transform.Rotate(0f,0f,  -1);
-               yield return new WaitForSeconds(0.044444f); // be careful about the timing!
+               yield return new WaitForSeconds(0.011111f); 
            } 
         } 
         else if (turnsCounterclockwise && !turnsClockwise)
@@ -68,7 +71,7 @@ public class MainBlockMovement : MonoBehaviour
             for (int i = 0; i <= turnDegree; i++)
             {
                 transform.Rotate(0f,0f,  1);
-                yield return new WaitForSeconds(0.044444f);
+                yield return new WaitForSeconds(0.011111f);
             }
         } 
         else if (turnsClockwise && turnsCounterclockwise)
@@ -83,33 +86,28 @@ public class MainBlockMovement : MonoBehaviour
     {
         while (true)
         {
-            if (Input.touchCount == 1)
+            if (Input.touchCount >= 1 && !slideCoroutineStarted)
             {
+                Debug.Log("in the touch");
                 touch = Input.GetTouch(0);
 
                 if (touch.phase == TouchPhase.Began)
                 {
                     touchStartPosition = touch.position;
                     touchBegan = true;
+                    Debug.Log("touch began");
                 }
-                else
-                {
-                    touchBegan = false;
-                }
-            
-                
+
                 if (touch.phase == TouchPhase.Ended)
                 {
                     touchEndPosition = touch.position;
                     touchEnded = true;
+                    Debug.Log("touch ended");
                 }
-                else
-                {
-                    touchEnded = false;
-                }
-
+                
                 if (touchBegan && touchEnded)
                 {
+                    Debug.Log("about to calculate the slide");
                     CalculateSlide();
                 }
             }
