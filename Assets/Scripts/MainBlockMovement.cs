@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MainBlockMovement : MonoBehaviour
-{ 
-    /*
-     *    REWRITE THE CODE WITH UNITY'S NEW TOUCH INPUT SYSTEM
-     */
+{
     private Touch touch;
     
     private Vector2 touchStartPosition;
