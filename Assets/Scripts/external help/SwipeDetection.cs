@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 // This code was copied from Samyam's video tutorial
-// Code was edited
+// The code was edited and new codes were added by me
 
 public class SwipeDetection : MonoBehaviour
 {
@@ -17,10 +17,13 @@ public class SwipeDetection : MonoBehaviour
     private Vector2 endPosition;
     private float startTime;
     private float endTime;
+
+    private GameObject platformGameObject;
     
     private void Awake()
     {
         inputManager = InputManager.Instance;
+        platformGameObject = GameObject.Find("Platform");
     }
 
     private void OnEnable()
@@ -58,11 +61,11 @@ public class SwipeDetection : MonoBehaviour
             Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;
             SwipeDirection(direction2D);
         }
-    }
+    } // yazdım: startPosition .y uzunluk ekranın y deki uzunluğunun yarısından az ise 
 
     private void SwipeDirection(Vector2 direction)
     {
-        if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
+        if (Vector2.Dot(Vector2.up, direction) > directionThreshold) // not needed swipe up and swipe down right now 
         {
             Debug.Log("Swipe up");
         }
@@ -70,13 +73,21 @@ public class SwipeDetection : MonoBehaviour
         {
             Debug.Log("Swipe down");
         }
-        else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
+        else if (((Vector2.Dot(Vector2.left, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
+                 && !PlatformMovement.swipedLeft)
         {
+            PlatformMovement.swipedLeft = true;
             Debug.Log("Swipe left");
+            StartCoroutine(platformGameObject.GetComponent<PlatformMovement>().getTurnPlatform());
+
         }
-        else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
+        else if (((Vector2.Dot(Vector2.right, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
+                 && !PlatformMovement.swipedRight)
         {
+            PlatformMovement.swipedRight = true;
             Debug.Log("Swipe right");
+            StartCoroutine(platformGameObject.GetComponent<PlatformMovement>().getTurnPlatform());
+            
         }
     }
 }
