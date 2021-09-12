@@ -51,9 +51,6 @@ public class InputManager : Singleton<InputManager>
         if (OnEndTouch != null) OnEndTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float) context.time);
     }
 
-    public Vector2 PrimaryPosition()
-    {
-        return Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>());
-    }
+    
 }
 

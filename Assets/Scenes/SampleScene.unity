@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1179971446}
   - component: {fileID: 1179971445}
   m_Layer: 0
-  m_Name: bg
+  m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 1586008396}
   - component: {fileID: 1586008398}
   m_Layer: 0
-  m_Name: main-block
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586008395}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1a369a91049666419338d9efb5cf4e9, type: 3}
   m_Name: 
@@ -442,7 +442,6 @@ MonoBehaviour:
   minimumDistance: 0.2
   maximumTime: 1
   directionThreshold: 0.9
-  trail: {fileID: 2127307640}
 --- !u!1 &2127307640
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!96 &2127307641
 TrailRenderer:
   serializedVersion: 2
