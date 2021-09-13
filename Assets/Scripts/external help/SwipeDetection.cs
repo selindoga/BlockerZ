@@ -61,7 +61,7 @@ public class SwipeDetection : MonoBehaviour
             Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;
             SwipeDirection(direction2D);
         }
-    } // yazdım: startPosition .y uzunluk ekranın y deki uzunluğunun yarısından az ise 
+    } // yazamadım: startPosition .y uzunluk ekranın y deki uzunluğunun yarısından az ise 
 
     private void SwipeDirection(Vector2 direction)
     {
@@ -74,7 +74,7 @@ public class SwipeDetection : MonoBehaviour
             Debug.Log("Swipe down");
         }
         else if (((Vector2.Dot(Vector2.left, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
-                 && !PlatformMovement.swipedLeft)
+                 && !PlatformMovement.swipedLeft) // bug: it does not look whether our touch is below the half of the screen
         {
             PlatformMovement.swipedLeft = true;
             Debug.Log("Swipe left");
