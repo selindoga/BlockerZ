@@ -19,32 +19,26 @@ public class PlatformMovement : MonoBehaviour
     
     public static bool swipedLeft;
     public static bool swipedRight;
+
     
-
-    private IEnumerator TurnPlatform() // :D
+    private IEnumerator TurnPlatform()
     {
+        //Sequence sequence = DOTween.Sequence();
         
-        if (swipedLeft)
+        if (swipedLeft && !swipedRight)
         {
-            transform.DORotate(new Vector3(0, 0, -90f), 1f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).WaitForCompletion();
-            yield return null;
-
-            
-            /* tween bitmeden diğer tweenleri başlatma
-             çünkü tam 180 e yada 90 a gitmemiş oluyor en son ki tween bitince rotation eksik kalmış oluyor 
-             
-             diğer tween başlatılmak istense bile şu anki tweenin bitmesini bekle
-             */
-
+            Tween tween = transform.DORotate(new Vector3(0, 0, -90f), .6f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+            yield return tween.WaitForCompletion();
             swipedLeft = false;
+            swipedRight = false;
         }
         
-        else if (swipedRight)
+        else if (swipedRight && !swipedLeft)
         {
-            transform.DORotate(new Vector3(0, 0, +90f), 1f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).WaitForCompletion(); // RotateMode.LocalAxisAdd
-            yield return null;
-            
+            Tween tween = transform.DORotate(new Vector3(0, 0, +90f), .6f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear); 
+            yield return tween.WaitForCompletion();
             swipedRight = false;
+            swipedLeft = false;
         }
         
     }
