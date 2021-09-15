@@ -20,6 +20,7 @@ public class PlatformMovement : MonoBehaviour
     public static bool swipedLeft;
     public static bool swipedRight;
 
+    private float turningSpeed = 0.3f;
     
     private IEnumerator TurnPlatform()
     {
@@ -27,7 +28,7 @@ public class PlatformMovement : MonoBehaviour
         
         if (swipedLeft && !swipedRight)
         {
-            Tween tween = transform.DORotate(new Vector3(0, 0, -90f), .6f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+            Tween tween = transform.DORotate(new Vector3(0, 0, -90f), turningSpeed, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
             yield return tween.WaitForCompletion();
             swipedLeft = false;
             swipedRight = false;
@@ -35,7 +36,7 @@ public class PlatformMovement : MonoBehaviour
         
         else if (swipedRight && !swipedLeft)
         {
-            Tween tween = transform.DORotate(new Vector3(0, 0, +90f), .6f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear); 
+            Tween tween = transform.DORotate(new Vector3(0, 0, +90f), turningSpeed, RotateMode.LocalAxisAdd).SetEase(Ease.Linear); 
             yield return tween.WaitForCompletion();
             swipedRight = false;
             swipedLeft = false;
