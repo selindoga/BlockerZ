@@ -46,7 +46,6 @@ public class PlatformMovement : MonoBehaviour
 
     public IEnumerator getTurnPlatform()
     {
-        Debug.Log("in the getTurnPlatform, should start the coroutine");
         return TurnPlatform();
     }
 
