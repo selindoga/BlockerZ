@@ -1,0 +1,1 @@
+In this folder, these are the scripts that I got as external. I did not write them. The scripts outside of this folder are the scripts that I wrote

@@ -61,7 +61,7 @@ public class SwipeDetection : MonoBehaviour
             Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;
             SwipeDirection(direction2D);
         }
-    } // yazamadım: startPosition .y uzunluk ekranın y deki uzunluğunun yarısından az ise bug at 77th line
+    } 
 
     private void SwipeDirection(Vector2 direction)
     {
