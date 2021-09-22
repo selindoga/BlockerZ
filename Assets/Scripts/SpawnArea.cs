@@ -3,26 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpawnArea : MonoBehaviour
 {
-    public GameObject A2;
-    private bool StartedSpawn = true;
+    // kodu şimdilik sadece bu touch inputu kullanacakmışım gibi yazayım
+    // tüm özellikleri kodlamayı bitirince touch inputu değiştir
     
+    //      remove slide touch input
+    //      instead add touch and hold input to change the position of the block vertically
     
-    void Start()   
+    //          blokların rigidbodylerindeki freeze position y yi kaldır
+    
+    public GameObject [] ArrayOfBlocks;
+    public static bool StartedSpawn;
+    
+    void Start()
     {
+        StartedSpawn = true;
         StartCoroutine(MakeSpawn());
     }
     
     IEnumerator MakeSpawn()
     {
-        if (StartedSpawn)
+        while (true)
         {
-            Instantiate(A2, gameObject.transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(3f);
-            StartedSpawn = false;
+            if (StartedSpawn)
+            {
+                int i = Random.Range(0, 2); // if written Random.Range for int the max value is exclusive
+                Instantiate(ArrayOfBlocks[i], gameObject.transform.position, Quaternion.identity);
+                StartedSpawn = false;
+                yield return null;
+            }
+            else yield return null;
         }
-        else yield return new WaitForSeconds(3f);
     }
 }
