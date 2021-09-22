@@ -1,6 +1,7 @@
 # BlockerZ
 #### DONE
 -> touch input with sliding and platform turns
+
 -> the falling of blocks
 #### IN PROGRESS 
 -> will add a new touch input hold and slide to decide where the block will fall from
