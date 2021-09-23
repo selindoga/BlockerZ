@@ -8,9 +8,11 @@ public class Blocks : MonoBehaviour
     private Rigidbody2D rb;
     private GameObject platform;
     private bool StartedFixedUpdate;
+    private SpawnArea _spawnArea;
     
     private void Awake()
     {
+        _spawnArea = GameObject.Find("Spawn Area").GetComponent<SpawnArea>(); // instead of _spawnArea = new SpawnArea(); because it cannot be written like this
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -28,7 +30,7 @@ public class Blocks : MonoBehaviour
         
         StartedFixedUpdate = false;
         gameObject.transform.SetParent(platform.transform);
-        SpawnArea.StartedSpawn = true;
+        _spawnArea.StartedSpawn = true;
     }
 
     private void OnEnable()

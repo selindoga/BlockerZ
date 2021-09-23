@@ -7,20 +7,14 @@ using Random = UnityEngine.Random;
 
 public class SpawnArea : MonoBehaviour
 {
-    // kodu şimdilik sadece bu touch inputu kullanacakmışım gibi yazayım
-    // tüm özellikleri kodlamayı bitirince touch inputu değiştir
-    
-    //      remove slide touch input
-    //      instead add touch and hold input to change the position of the block vertically
-    
-    //          blokların rigidbodylerindeki freeze position y yi kaldır
+    // blokların rigidbodylerindeki freeze position y yi kaldır
     
     public GameObject [] ArrayOfBlocks;
-    public static bool StartedSpawn;
+    private bool startedSpawn;
     
     void Start()
     {
-        StartedSpawn = true;
+        startedSpawn = true;
         StartCoroutine(MakeSpawn());
     }
     
@@ -28,14 +22,20 @@ public class SpawnArea : MonoBehaviour
     {
         while (true)
         {
-            if (StartedSpawn)
+            if (startedSpawn)
             {
                 int i = Random.Range(0, 2); // if written Random.Range for int the max value is exclusive
                 Instantiate(ArrayOfBlocks[i], gameObject.transform.position, Quaternion.identity);
-                StartedSpawn = false;
+                startedSpawn = false;
                 yield return null;
             }
             else yield return null;
         }
+    }
+
+    public bool StartedSpawn // can be written with either => or { }
+    {
+        get => startedSpawn;
+        set => startedSpawn = value;
     }
 }
