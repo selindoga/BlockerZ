@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class PlatformMovement : MonoBehaviour
+public class PlatformMovement_A : MonoBehaviour
 {
+    // Code for design A
+    
     private Touch touch;
     
     private Vector2 touchStartPosition;
