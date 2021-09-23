@@ -74,21 +74,22 @@ public class SwipeDetection : MonoBehaviour
             Debug.Log("Swipe down");
         }
         else if (((Vector2.Dot(Vector2.left, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
-                 && !PlatformMovement.swipedLeft)
+                 && !PlatformMovement_A.swipedLeft)
             
-            // bug: it does not look whether our touch is below the half of the screen
+            // This is important for Design A: bug: it does not look whether our touch is below the half of the screen
+            // Not important and does not matter for Design B
         {
-            PlatformMovement.swipedLeft = true;
+            PlatformMovement_A.swipedLeft = true;
             Debug.Log("Swipe left");
-            StartCoroutine(platformGameObject.GetComponent<PlatformMovement>().getTurnPlatform());
+            StartCoroutine(platformGameObject.GetComponent<PlatformMovement_A>().getTurnPlatform());
 
         }
         else if (((Vector2.Dot(Vector2.right, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
-                 && !PlatformMovement.swipedRight)
+                 && !PlatformMovement_A.swipedRight)
         {
-            PlatformMovement.swipedRight = true;
+            PlatformMovement_A.swipedRight = true;
             Debug.Log("Swipe right");
-            StartCoroutine(platformGameObject.GetComponent<PlatformMovement>().getTurnPlatform());
+            StartCoroutine(platformGameObject.GetComponent<PlatformMovement_A>().getTurnPlatform());
             
         }
     }
