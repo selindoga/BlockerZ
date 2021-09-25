@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 // This code was copied from Samyam's video tutorial
-// The code was edited and new codes were added by me
+// The code was changed, edited and new codes were added by me
 
 public class SwipeDetection : MonoBehaviour
 {
@@ -67,11 +67,11 @@ public class SwipeDetection : MonoBehaviour
     {
         if (Vector2.Dot(Vector2.up, direction) > directionThreshold) // not needed swipe up and swipe down right now ( NOT YET )
         {
-            Debug.Log("Swipe up");
+            // Debug.Log("Swipe up");
         }
         else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
         {
-            Debug.Log("Swipe down");
+            // Debug.Log("Swipe down");
         }
         else if (((Vector2.Dot(Vector2.left, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
                  && !PlatformMovement_A.swipedLeft)
@@ -79,7 +79,9 @@ public class SwipeDetection : MonoBehaviour
             // This is important for Design A: bug: it does not look whether our touch is below the half of the screen
             // Not important and does not matter for Design B
         {
-            PlatformMovement_A.swipedLeft = true;
+            if (GameManager.inSceneA) 
+                PlatformMovement_A.swipedLeft = true;
+            
             Debug.Log("Swipe left");
             StartCoroutine(platformGameObject.GetComponent<PlatformMovement_A>().getTurnPlatform());
 
@@ -87,7 +89,9 @@ public class SwipeDetection : MonoBehaviour
         else if (((Vector2.Dot(Vector2.right, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
                  && !PlatformMovement_A.swipedRight)
         {
-            PlatformMovement_A.swipedRight = true;
+            if (GameManager.inSceneA) 
+                PlatformMovement_A.swipedRight = true;
+            
             Debug.Log("Swipe right");
             StartCoroutine(platformGameObject.GetComponent<PlatformMovement_A>().getTurnPlatform());
             
