@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        FindScene();
+        Debug.Log("game manager found active scene");
+    }
+
+    private void FindScene()
+    {
         Scene currentScene = SceneManager.GetActiveScene();
         sceneName = currentScene.name;
 
@@ -28,8 +34,5 @@ public class GameManager : MonoBehaviour
             inSceneA = false;
         }
     }
-    
-    
-    
     
 }

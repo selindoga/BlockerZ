@@ -7,11 +7,12 @@ using Random = UnityEngine.Random;
 
 public class SpawnArea : MonoBehaviour
 {
+    // This script can be used for both design A and B
     // blokların rigidbodylerindeki freeze position y yi kaldır
     
     public GameObject [] ArrayOfBlocks;
     private bool startedSpawn;
-    
+    private PlatformMovement_B _platformMovementB;
     void Start()
     {
         startedSpawn = true;
@@ -24,8 +25,14 @@ public class SpawnArea : MonoBehaviour
         {
             if (startedSpawn)
             {
+                if (GameManager.inSceneB)
+                {
+                    _platformMovementB = GameObject.Find("Platform").GetComponent<PlatformMovement_B>();
+                    StartCoroutine(_platformMovementB.getTurnPlatform());
+                }
+                yield return new WaitForSeconds(.4f); // platform turning must be at most 0.5 seconds
                 int i = Random.Range(0, 2); // if written Random.Range for int the max value is exclusive
-                Instantiate(ArrayOfBlocks[i], gameObject.transform.position, Quaternion.identity);
+                Instantiate(ArrayOfBlocks[i], transform.position, Quaternion.identity);
                 startedSpawn = false;
                 yield return null;
             }

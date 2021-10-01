@@ -19,12 +19,6 @@ public class SwipeDetection : MonoBehaviour
     private float endTime;
 
     private GameObject platformGameObject;
-    
-    private void Awake()
-    {
-        inputManager = InputManager.Instance;
-        platformGameObject = GameObject.Find("Platform");
-    }
 
     private void OnEnable()
     {
@@ -37,6 +31,12 @@ public class SwipeDetection : MonoBehaviour
         inputManager.OnStartTouch -= SwipeStart;
         inputManager.OnEndTouch -= SwipeEnd;
     }
+    
+    private void Awake()
+    {
+        inputManager = InputManager.Instance;
+        platformGameObject = GameObject.Find("Platform");
+    }
 
     private void SwipeStart(Vector2 position, float time)
     {
@@ -46,7 +46,6 @@ public class SwipeDetection : MonoBehaviour
     
     private void SwipeEnd(Vector2 position, float time)
     {
-        
         endPosition = position;
         endTime = time;
         DetectSwipe();
@@ -54,39 +53,43 @@ public class SwipeDetection : MonoBehaviour
 
     private void DetectSwipe()
     {
-        if (Vector3.Distance(startPosition, endPosition) >= minimumDistance && (endTime - startTime) <= maximumTime)
+        if (GameManager.inSceneA)
         {
-            Debug.DrawLine(startPosition, endPosition, Color.red, 5f); 
-            Vector3 direction = endPosition - startPosition;
-            Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;
-            SwipeDirection(direction2D);
+            if (Vector3.Distance(startPosition, endPosition) >= minimumDistance && (endTime - startTime) <= maximumTime)
+            {
+                Debug.DrawLine(startPosition, endPosition, Color.red, 5f); 
+                Vector3 direction = endPosition - startPosition;
+                Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;
+                SwipeDirection(direction2D);
+            }
         }
     } 
 
     private void SwipeDirection(Vector2 direction)
     {
+        /*
         if (Vector2.Dot(Vector2.up, direction) > directionThreshold) // not needed swipe up and swipe down right now ( NOT YET )
         {
-            // Debug.Log("Swipe up");
+            Debug.Log("Swipe up");
         }
         else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
         {
-            // Debug.Log("Swipe down");
+            Debug.Log("Swipe down");
         }
-        else if (((Vector2.Dot(Vector2.left, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
-                 && !PlatformMovement_A.swipedLeft)
-            
-            // This is important for Design A: bug: it does not look whether our touch is below the half of the screen
-            // Not important and does not matter for Design B
+        */
+        
+        if (((Vector2.Dot(Vector2.left, direction) > directionThreshold) && (Input.GetTouch(0).position.y <= (Screen.height / 2f))) 
+            && !PlatformMovement_A.swipedLeft)
+            // Check for design A: Does it look whether our touch position is below the half of the screen?
         {
             if (GameManager.inSceneA) 
                 PlatformMovement_A.swipedLeft = true;
             
             Debug.Log("Swipe left");
             StartCoroutine(platformGameObject.GetComponent<PlatformMovement_A>().getTurnPlatform());
-
+            
         }
-        else if (((Vector2.Dot(Vector2.right, direction) > directionThreshold) && (startPosition.y <= Screen.height/2f)) 
+        else if (((Vector2.Dot(Vector2.right, direction) > directionThreshold) && (Input.GetTouch(0).position.y <= (Screen.height/2f))) 
                  && !PlatformMovement_A.swipedRight)
         {
             if (GameManager.inSceneA) 
