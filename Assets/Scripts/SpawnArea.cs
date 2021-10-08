@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class SpawnArea : MonoBehaviour
 {
     // This script can be used for both design A and B
-    // blokların rigidbodylerindeki freeze position y yi kaldır
+    // reminder: remove freeze position y under the rigidbody component of the blocks
     
     public GameObject [] ArrayOfBlocks;
     private bool startedSpawn;
