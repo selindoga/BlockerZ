@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // eğer scene b de isem 
     private String sceneName;
     
     public static bool inSceneA;
