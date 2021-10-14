@@ -1,22 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class Blocks : MonoBehaviour
 { 
-    // this code contains the movement of block prefabs: their falling, collision and interaction, their horizontal movement with the touch input
+    // this code contains the movement of block prefabs: their falling, collision and interaction, their vertical movement with the touch input
     
-    private Camera CameraMain;
     private Rigidbody2D rb;
     private GameObject platform;
-    private bool StartedFixedUpdate;
     private SpawnArea spawnArea;
     private Touch touch;
+
+    private bool StartedFixedUpdate;
     
     private void Awake()
     {
-        CameraMain = Camera.main;
         spawnArea = GameObject.Find("Spawn Area").GetComponent<SpawnArea>(); // instead of _spawnArea = new SpawnArea(); because it cannot be written like this
         rb = GetComponent<Rigidbody2D>();
     }
@@ -41,6 +41,7 @@ public class Blocks : MonoBehaviour
     private void OnEnable()
     {
         FixedUpdate();
+        Update();
     }
 
     private void FixedUpdate()
@@ -53,25 +54,52 @@ public class Blocks : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if ((Input.GetMouseButton(0) || Input.touchCount > 0) && GameManager.inSceneB)
         {
-            touch = Input.GetTouch(0);
-            Debug.Log("inside the change block UPDATE");
-            // MoveBlock_B(touch.position);
+            Vector3 screenPos = Input.mousePosition;
+            screenPos.z = 10.0f;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            Vector3 objPos = transform.position;
+            objPos.x = worldPos.x;
+            transform.position = objPos;
         }
+        
+        // if (Input.touchCount > 0) // && Input.GetTouch(0).phase == TouchPhase.Began  I should remove the touchPhase part maybe
+        // {
+        //     touch = Input.GetTouch(0);
+        //     
+        //     Debug.Log("IF");
+        //     
+        //     if (GameManager.inSceneB && !CoroutineStarted)
+        //     {
+        //         //StartCoroutine(FollowTouch_B());
+        //     }
+        // }
+        // else
+        // {
+        //     CoroutineStarted = false;
+        //     StopCoroutine(FollowTouch_B());
+        // }
     }
 
-    // also write the code for design B that follows player's horizontal touch position
-    private void MoveBlock_B(Vector2 screenPosition) 
-        // have no idea how to combine this with the touch input 
-        // need to look a tutorial bout it
-    {
-        Vector3 screenCoortinates = new Vector3(screenPosition.x, screenPosition.y, CameraMain.nearClipPlane);
-        Vector3 worldCoordinates = CameraMain.ScreenToWorldPoint(screenCoortinates);
-        worldCoordinates.y = 0;
-        // worldCoordinates.z = 0;
-        transform.position = worldCoordinates;
-    }
+    // for design B that follows player's vertical touch position
+
+    //private IEnumerator FollowTouch_B()
+    //{
+    //    while (true)
+    //    {
+    //        CoroutineStarted = true;
+//
+    //        Vector2 touchPosition = touch.position;
+    //        Vector3 screenCoortinates = new Vector3(touchPosition.x, touchPosition.y, CameraMain.nearClipPlane);
+    //        Vector3 worldCoordinates = CameraMain.ScreenToWorldPoint(screenCoortinates);
+    //        worldCoordinates.y = 0;
+    //        worldCoordinates.z = 0;
+    //        transform.position = worldCoordinates;
+//
+    //        yield return null; 
+    //    }
+    //}
     
     
 }
