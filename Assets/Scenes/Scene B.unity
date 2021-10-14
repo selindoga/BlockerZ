@@ -218,7 +218,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 9.9
+  near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -487,8 +487,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1714688624}
-  - component: {fileID: 1714688623}
   - component: {fileID: 1714688625}
+  - component: {fileID: 1714688623}
   - component: {fileID: 1714688626}
   m_Layer: 0
   m_Name: Manager
