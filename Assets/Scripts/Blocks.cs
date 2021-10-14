@@ -63,43 +63,5 @@ public class Blocks : MonoBehaviour
             objPos.x = worldPos.x;
             transform.position = objPos;
         }
-        
-        // if (Input.touchCount > 0) // && Input.GetTouch(0).phase == TouchPhase.Began  I should remove the touchPhase part maybe
-        // {
-        //     touch = Input.GetTouch(0);
-        //     
-        //     Debug.Log("IF");
-        //     
-        //     if (GameManager.inSceneB && !CoroutineStarted)
-        //     {
-        //         //StartCoroutine(FollowTouch_B());
-        //     }
-        // }
-        // else
-        // {
-        //     CoroutineStarted = false;
-        //     StopCoroutine(FollowTouch_B());
-        // }
     }
-
-    // for design B that follows player's vertical touch position
-
-    //private IEnumerator FollowTouch_B()
-    //{
-    //    while (true)
-    //    {
-    //        CoroutineStarted = true;
-//
-    //        Vector2 touchPosition = touch.position;
-    //        Vector3 screenCoortinates = new Vector3(touchPosition.x, touchPosition.y, CameraMain.nearClipPlane);
-    //        Vector3 worldCoordinates = CameraMain.ScreenToWorldPoint(screenCoortinates);
-    //        worldCoordinates.y = 0;
-    //        worldCoordinates.z = 0;
-    //        transform.position = worldCoordinates;
-//
-    //        yield return null; 
-    //    }
-    //}
-    
-    
 }
