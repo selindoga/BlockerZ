@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 // This code was copied from Samyam's video tutorial
-// The code was changed, edited and new codes were added by me
+// The code was changed, removed and new codes were added by me
 
 public class SwipeDetection : MonoBehaviour
 {
