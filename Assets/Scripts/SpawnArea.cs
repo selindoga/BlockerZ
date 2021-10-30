@@ -10,6 +10,7 @@ public class SpawnArea : MonoBehaviour
     // This script can be used for both design A and B
     // reminder: remove freeze position y under the rigidbody component of the blocks
     
+    // this script contains: the spawning of blocks, and calling the movement of platform
     public GameObject [] ArrayOfBlocks;
     private bool startedSpawn;
     private PlatformMovement_B _platformMovementB;
