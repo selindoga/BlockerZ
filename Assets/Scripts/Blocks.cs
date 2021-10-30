@@ -14,6 +14,9 @@ public class Blocks : MonoBehaviour
     private Touch touch;
 
     private bool StartedFixedUpdate;
+    private GameObject lowestPositionObject;
+
+    private bool startedFollowingTouch;
     
     private void Awake()
     {
@@ -25,6 +28,11 @@ public class Blocks : MonoBehaviour
     {
         StartedFixedUpdate = true;
         platform = GameObject.Find("Platform");
+        if (transform.GetChild(0).gameObject == null)
+        {
+            Debug.Log("Error : The prefab block does not have the child object (lowest position) . Create it");
+        }else 
+            lowestPositionObject = transform.GetChild(0).gameObject;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -41,9 +49,19 @@ public class Blocks : MonoBehaviour
     private void OnEnable()
     {
         FixedUpdate();
+        StartCoroutine(Wait()); // start following the touch after some time
         Update();
     }
 
+    private IEnumerator Wait() 
+    {
+        Debug.Log("started coroutine");
+        yield return new WaitForSeconds(2.3f); // the waiting time to start following the touch
+        // the time can be changed later
+        Debug.Log("waited coroutine");
+        startedFollowingTouch = true;
+    }
+    
     private void FixedUpdate()
     {
         if (StartedFixedUpdate)
@@ -54,14 +72,20 @@ public class Blocks : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetMouseButton(0) || Input.touchCount > 0) && GameManager.inSceneB)
+        if ((Input.GetMouseButton(0) || Input.touchCount > 0) && (GameManager.inSceneB && startedFollowingTouch))
         {
-            Vector3 screenPos = Input.mousePosition;
-            screenPos.z = 10.0f;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-            Vector3 objPos = transform.position;
-            objPos.x = worldPos.x;
-            transform.position = objPos;
+            Vector3 blockStopVector =
+                new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
+
+            if (lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
+            {
+                Vector3 screenPos = Input.mousePosition;
+                screenPos.z = 10.0f;
+                Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+                Vector3 objPos = transform.position;
+                objPos.x = worldPos.x;
+                transform.position = objPos;
+            }
         }
     }
 }
