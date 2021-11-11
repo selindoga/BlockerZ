@@ -10,9 +10,9 @@ _(new better way)_
 
 #### DONE
 * touch input with sliding and platform turns
-
+* added a new touch input hold and slide to decide where the block will fall from **( B )**
 * falling and spawning of blocks
 #### IN PROGRESS 
-* will add a new touch input hold and slide to decide where the block will fall from
 
-* (_**maybe**_ will remove the other touch input in the later when the the basics of the game finishes)
+
+
