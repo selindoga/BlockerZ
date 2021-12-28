@@ -6,6 +6,7 @@
 ### DESIGN B: 
 _(new better way)_
 
+__THIS IS NOT WORKING PROPERLY__
 * user decides where the block will fall from horizontally by touching and sliding (holding). The block follows the touch's horizontal position and falls. Platform turns automatically in the clockwise direction.
 
 #### DONE
