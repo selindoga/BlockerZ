@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class Blocks : MonoBehaviour
 { 
-    // this code contains the movement of block prefabs: their falling, collision and interaction, their vertical movement with the touch input
+    // this code contains the movement of block prefabs:
+    // their falling,
+    // collision and interaction,
+    // their vertical movement with the touch input
     
     private Rigidbody2D rb;
     private GameObject platform;
@@ -79,6 +82,9 @@ public class Blocks : MonoBehaviour
 
             if (lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
             {
+                // tam bu kodda obje horizontal touch inputu takip ediyor 
+                Debug.Log("şu an inputu takip eden koda girdi");
+                
                 Vector3 screenPos = Input.mousePosition;
                 screenPos.z = 10.0f;
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);

@@ -12,6 +12,7 @@ public class PlatformMovement_B : MonoBehaviour
     
     private IEnumerator TurnPlatform()
     {
+        Debug.Log("in the ienumerator");
         Tween tween = transform.DORotate(new Vector3(0, 0, -90f), turningDuration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
         yield return tween.WaitForCompletion();
     }

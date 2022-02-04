@@ -45,13 +45,20 @@ public class InputManager : Singleton<InputManager>
 
     private void StartTouchPrimary(InputAction.CallbackContext context)
     {
-        if (OnStartTouch != null) 
-            OnStartTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float) context.startTime);
+        if (OnStartTouch != null)
+        {
+            OnStartTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()),
+                (float)context.startTime);
+            Debug.Log("NOT: touch started");
+        }
     }
     private void EndTouchPrimary(InputAction.CallbackContext context)
     {
-        if (OnEndTouch != null) 
-            OnEndTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float) context.time);
+        if (OnEndTouch != null)
+        {
+            OnEndTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.time);
+            Debug.Log("NOT: touch ended");
+        }
     }
 
     
