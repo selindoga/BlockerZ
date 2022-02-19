@@ -22,12 +22,12 @@ public class GameManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         sceneName = currentScene.name;
 
-        if (sceneName == "Scene A")
+        if (sceneName == "Scene_A")
         {
             inSceneA = true;
             inSceneB = false;
         }
-        else if (sceneName == "Scene B")
+        else if (sceneName == "Scene_B")
         {
             inSceneB = true;
             inSceneA = false;
