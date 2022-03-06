@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Blocks : MonoBehaviour
 { 
+    // TODO: seperate this code and make it more readable (when i have some spare time :D)
+    
     // this code contains the movement of block prefabs:
     // their falling,
     // collision and interaction,
@@ -30,11 +32,16 @@ public class Blocks : MonoBehaviour
     {
         _startedFixedUpdate = true;
         _platform = GameObject.Find("Platform");
-        if (transform.GetChild(0).gameObject == null)
+        try
+        {
+            _lowestPositionObject = transform.GetChild(0).gameObject;
+
+        }
+        catch
         {
             Debug.Log("Error : The prefab block does not have the child object (lowest position) . Create it");
-        }else 
-            _lowestPositionObject = transform.GetChild(0).gameObject;
+            // it means transform.GetChild(0).gameObject == null
+        }
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -45,6 +52,7 @@ public class Blocks : MonoBehaviour
         _startedFixedUpdate = false;
         gameObject.transform.SetParent(_platform.transform);
         _spawnArea.StartedSpawn = true;
+        _startedFollowingTouch = false;
     }
     private void OnEnable()
     {
@@ -54,10 +62,8 @@ public class Blocks : MonoBehaviour
     }
     private IEnumerator Wait() 
     {
-        Debug.Log("started coroutine");
         yield return new WaitForSeconds(2.3f); // the waiting time to start following the touch
         // the time can be changed later
-        Debug.Log("waited coroutine");
         _startedFollowingTouch = true;
     }
     private void FixedUpdate()
@@ -71,17 +77,27 @@ public class Blocks : MonoBehaviour
     {
         if ((Input.GetMouseButton(0) || Input.touchCount > 0) && (GameManager.inSceneB && _startedFollowingTouch))
         {
-            Vector3 blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
-            if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
-            {
-                // tam bu kodda obje horizontal touch inputu takip ediyor 
-                Vector3 screenPos = Input.mousePosition;
-                screenPos.z = 10.0f;
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-                Vector3 objPos = transform.position;
-                objPos.x = worldPos.x;
-                gameObject.transform.position = objPos;
-            }
+            FollowTouchInput();
+        }
+    }
+
+    private void ChangeObjectsPosition()
+    {
+        // tam bu kodda obje horizontal touch inputu takip ediyor 
+        Vector3 screenPos = Input.mousePosition;
+        screenPos.z = 10.0f;
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        Vector3 objPos = transform.position;
+        objPos.x = worldPos.x;
+        gameObject.transform.position = objPos;
+    }
+
+    private void FollowTouchInput()
+    {
+        Vector3 blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
+        if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
+        {
+            ChangeObjectsPosition();
         }
     }
 }
