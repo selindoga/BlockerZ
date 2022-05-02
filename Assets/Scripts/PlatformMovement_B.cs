@@ -19,8 +19,10 @@ public class PlatformMovement_B : MonoBehaviour
     }
     private IEnumerator TurnPlatform()
     {
-        //Debug.Log("in the ienumerator");
-        Tween tween = transform.DORotate(new Vector3(0, 0, -90f), turningDuration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+        // i love this piece of code i wrote <3
+        // i love you code
+        Tween tween = transform.DORotate(new Vector3(0, 0, -90f),
+            turningDuration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
         yield return tween.WaitForCompletion();
         lineColliderIsHorizontal = !lineColliderIsHorizontal;
     }

@@ -11,9 +11,19 @@ public class GameManager : MonoBehaviour
     public static bool inSceneA;
     public static bool inSceneB;
     
+    private GameObject touchBorderObj;
+    private Vector3 touchBorderWorldPos;
+    private void OnEnable()
+    {
+        touchBorderObj = GameObject.Find("/CameraFollowingParent/touchBorder");
+        touchBorderWorldPos.y = (Screen.height / 10) * 7;
+    }
+
     private void Start()
     {
         FindScene();
+        touchBorderObj.transform.Translate(touchBorderObj.transform.position.x,
+            Camera.main.ScreenToWorldPoint(touchBorderWorldPos).y, touchBorderObj.transform.position.z);
     }
 
     private void FindScene()

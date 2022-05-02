@@ -49,7 +49,6 @@ public class InputManager : Singleton<InputManager>
         {
             OnStartTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()),
                 (float)context.startTime);
-            Debug.Log("NOT: touch started");
         }
     }
     private void EndTouchPrimary(InputAction.CallbackContext context)
@@ -57,7 +56,6 @@ public class InputManager : Singleton<InputManager>
         if (OnEndTouch != null)
         {
             OnEndTouch(Utils.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.time);
-            Debug.Log("NOT: touch ended");
         }
     }
 

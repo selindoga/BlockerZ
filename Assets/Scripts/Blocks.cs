@@ -22,6 +22,10 @@ public class Blocks : MonoBehaviour
     private GameObject _lowestPositionObject;
 
     private bool _startedFollowingTouch;
+    private Vector3 blockStopVector;
+    private Vector3 screenPos;
+    private Vector3 worldPos;
+    private Vector3 objPos;
     
     private void Awake()
     {
@@ -84,17 +88,17 @@ public class Blocks : MonoBehaviour
     private void ChangeObjectsPosition()
     {
         // tam bu kodda obje horizontal touch inputu takip ediyor 
-        Vector3 screenPos = Input.mousePosition;
+        screenPos = Input.mousePosition;
         screenPos.z = 10.0f;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-        Vector3 objPos = transform.position;
+        worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        objPos = transform.position;
         objPos.x = worldPos.x;
         gameObject.transform.position = objPos;
     }
 
     private void FollowTouchInput()
     {
-        Vector3 blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
+        blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
         if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
         {
             ChangeObjectsPosition();
