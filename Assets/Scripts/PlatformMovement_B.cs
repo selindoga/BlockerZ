@@ -14,8 +14,8 @@ public class PlatformMovement_B : MonoBehaviour
     
     private void Awake()
     {
-        lineCollider = GameObject.Find("Platform/lineCollider");
-        lineColliderOther = GameObject.Find("Platform/lineColliderOther");
+        lineCollider = GameObject.Find("CameraFollowingParent/Platforms/Platform/lineCollider");
+        lineColliderOther = GameObject.Find("CameraFollowingParent/Platforms/Platform/lineColliderOther");
     }
     private IEnumerator TurnPlatform()
     {

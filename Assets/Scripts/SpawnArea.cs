@@ -12,11 +12,11 @@ public class SpawnArea : MonoBehaviour
     
     // this script contains: the spawning of blocks, and calling the movement of platform
     public GameObject [] ArrayOfBlocks;
-    private bool startedSpawn;
+    private bool _startedSpawingBlocks;
     private PlatformMovement_B _platformMovementB;
     void Start()
     {
-        startedSpawn = true;
+        _startedSpawingBlocks = true;
         StartCoroutine(MakeSpawn());
     }
     
@@ -24,7 +24,7 @@ public class SpawnArea : MonoBehaviour
     {
         while (true)
         {
-            if (startedSpawn)
+            if (_startedSpawingBlocks)
             {
                 if (GameManager.inSceneB)
                 {
@@ -34,16 +34,17 @@ public class SpawnArea : MonoBehaviour
                 yield return new WaitForSeconds(.4f); // platform turning must be at most 0.5 seconds
                 int i = Random.Range(0, 2); // if written Random.Range for int the max value is exclusive
                 Instantiate(ArrayOfBlocks[i], transform.position, Quaternion.identity);
-                startedSpawn = false;
+                _startedSpawingBlocks = false; 
+                    // _startedSpawingBlocks becomes false right after the spawning of a block
                 yield return null;
             }
             else yield return null;
         }
     }
 
-    public bool StartedSpawn // can be written with either => or { }
+    public bool StartedSpawingBlocks // can be written with either => or { }
     {
-        get => startedSpawn;
-        set => startedSpawn = value;
+        get => _startedSpawingBlocks;
+        set => _startedSpawingBlocks = value;
     }
 }

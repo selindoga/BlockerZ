@@ -12,6 +12,7 @@ public class Blocks : MonoBehaviour
     // their falling,
     // collision and interaction,
     // their vertical movement with the touch input
+    // todo: remove the reference _cameraMovement if I dont use it
     
     private Rigidbody2D _rb;
     private GameObject _platform;
@@ -26,9 +27,12 @@ public class Blocks : MonoBehaviour
     private Vector3 screenPos;
     private Vector3 worldPos;
     private Vector3 objPos;
+
+    private CameraMovement _cameraMovement; 
     
     private void Awake()
     {
+        _cameraMovement = GameObject.Find("CameraFollowingParent").gameObject.GetComponent<CameraMovement>();
         _spawnArea = GameObject.Find("Spawn Area").GetComponent<SpawnArea>(); // instead of _spawnArea = new SpawnArea(); because it cannot be written like this
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -53,10 +57,14 @@ public class Blocks : MonoBehaviour
         // check if other is the platform or its children that it should collide with,
         // if I happen to add more different objects near to the platform
         
-        _startedFixedUpdate = false;
-        gameObject.transform.SetParent(_platform.transform);
-        _spawnArea.StartedSpawn = true;
-        _startedFollowingTouch = false;
+        if (other.gameObject.CompareTag("platform"))
+        {
+            _startedFixedUpdate = false;
+            gameObject.transform.SetParent(_platform.transform);
+            _spawnArea.StartedSpawingBlocks = true;
+            gameObject.tag = "platform";
+            _startedFollowingTouch = false;
+        }
     }
     private void OnEnable()
     {
@@ -66,7 +74,7 @@ public class Blocks : MonoBehaviour
     }
     private IEnumerator Wait() 
     {
-        yield return new WaitForSeconds(2.3f); // the waiting time to start following the touch
+        yield return new WaitForSeconds(.3f); // the waiting time to start following the touch
         // the time can be changed later
         _startedFollowingTouch = true;
     }
@@ -85,6 +93,15 @@ public class Blocks : MonoBehaviour
         }
     }
 
+    private void FollowTouchInput()
+    {
+        blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
+        if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
+        {
+            ChangeObjectsPosition();
+        }
+    }
+
     private void ChangeObjectsPosition()
     {
         // tam bu kodda obje horizontal touch inputu takip ediyor 
@@ -94,14 +111,5 @@ public class Blocks : MonoBehaviour
         objPos = transform.position;
         objPos.x = worldPos.x;
         gameObject.transform.position = objPos;
-    }
-
-    private void FollowTouchInput()
-    {
-        blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
-        if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
-        {
-            ChangeObjectsPosition();
-        }
     }
 }
