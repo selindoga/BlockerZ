@@ -12,8 +12,7 @@ public class Blocks : MonoBehaviour
     // their falling,
     // collision and interaction,
     // their vertical movement with the touch input
-    // todo: remove the reference _cameraMovement if I dont use it
-    
+
     private Rigidbody2D _rb;
     private GameObject _platform;
     private SpawnArea _spawnArea;
@@ -23,17 +22,15 @@ public class Blocks : MonoBehaviour
     private GameObject _lowestPositionObject;
 
     private bool _startedFollowingTouch;
-    private Vector3 blockStopVector;
-    private Vector3 screenPos;
-    private Vector3 worldPos;
-    private Vector3 objPos;
-
-    private CameraMovement _cameraMovement; 
+    private Vector3 _blockStopVector;
+    private Vector3 _screenPos;
+    private Vector3 _worldPos;
+    private Vector3 _objPos;
     
     private void Awake()
     {
-        _cameraMovement = GameObject.Find("CameraFollowingParent").gameObject.GetComponent<CameraMovement>();
-        _spawnArea = GameObject.Find("Spawn Area").GetComponent<SpawnArea>(); // instead of _spawnArea = new SpawnArea(); because it cannot be written like this
+        // instead of _spawnArea = new SpawnArea(); because it cannot be written like this
+        _spawnArea = GameObject.Find("Spawn Area").GetComponent<SpawnArea>();
         _rb = GetComponent<Rigidbody2D>();
     }
     private void Start()
@@ -43,7 +40,6 @@ public class Blocks : MonoBehaviour
         try
         {
             _lowestPositionObject = transform.GetChild(0).gameObject;
-
         }
         catch
         {
@@ -53,7 +49,7 @@ public class Blocks : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        // in the future:
+        // in the future todo:
         // check if other is the platform or its children that it should collide with,
         // if I happen to add more different objects near to the platform
         
@@ -61,9 +57,10 @@ public class Blocks : MonoBehaviour
         {
             _startedFixedUpdate = false;
             gameObject.transform.SetParent(_platform.transform);
-            _spawnArea.StartedSpawingBlocks = true;
-            gameObject.tag = "platform";
+            _spawnArea.BlockPlacedToPlatform_StartedSpawningBlock = true;
+            tag = "platform";
             _startedFollowingTouch = false;
+            CameraMovement.Scaled = false;
         }
     }
     private void OnEnable()
@@ -85,6 +82,7 @@ public class Blocks : MonoBehaviour
             _rb.MovePosition(_rb.position + new Vector2(0,-1) * Time.fixedDeltaTime);
         }
     }
+    // just for the sake of the code quality todo: I have to change this Update() function below to a coroutine instead.
     private void Update()
     {
         if ((Input.GetMouseButton(0) || Input.touchCount > 0) && (GameManager.inSceneB && _startedFollowingTouch))
@@ -95,8 +93,8 @@ public class Blocks : MonoBehaviour
 
     private void FollowTouchInput()
     {
-        blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
-        if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(blockStopVector).y)
+        _blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
+        if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(_blockStopVector).y)
         {
             ChangeObjectsPosition();
         }
@@ -105,11 +103,11 @@ public class Blocks : MonoBehaviour
     private void ChangeObjectsPosition()
     {
         // tam bu kodda obje horizontal touch inputu takip ediyor 
-        screenPos = Input.mousePosition;
-        screenPos.z = 10.0f;
-        worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-        objPos = transform.position;
-        objPos.x = worldPos.x;
-        gameObject.transform.position = objPos;
+        _screenPos = Input.mousePosition;
+        _screenPos.z = 10.0f;
+        _worldPos = Camera.main.ScreenToWorldPoint(_screenPos);
+        _objPos = transform.position;
+        _objPos.x = _worldPos.x;
+        gameObject.transform.position = _objPos;
     }
 }

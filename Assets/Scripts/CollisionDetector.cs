@@ -17,8 +17,7 @@ public class CollisionDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("forCameraMov")) // todo : şu an bu kodda ne oldu
-            // todo: tam burada platforma düşen block ekranın kenarlarındaki colliderlara çarpıyor mu ?
+        if (col.gameObject.CompareTag("forCameraMov"))
         {
             _cameraMovement.ChangeCameraMovement();
         }
