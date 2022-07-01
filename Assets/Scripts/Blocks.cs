@@ -108,6 +108,29 @@ public class Blocks : MonoBehaviour
         _worldPos = Camera.main.ScreenToWorldPoint(_screenPos);
         _objPos = transform.position;
         _objPos.x = _worldPos.x;
+        _objPos.x = GetSnappingValue(_objPos.x);
         gameObject.transform.position = _objPos;
+    }
+
+    public float GetSnappingValue(float number)
+    {
+        float snappingFractional = 0;
+        float floored = Mathf.Floor(number);
+        float fractionalPart = number - floored;
+
+        if (fractionalPart >= 0 && fractionalPart <= 0.25)
+        {
+            snappingFractional = 0;
+        }
+        else if(fractionalPart > .25 && fractionalPart < .75)
+        {
+            snappingFractional = 0.5f;
+        }
+        else if (fractionalPart >= .75)
+        {
+            snappingFractional = 1;
+        }
+        
+        return floored + snappingFractional;
     }
 }
