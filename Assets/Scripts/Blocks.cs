@@ -18,7 +18,7 @@ public class Blocks : MonoBehaviour
     private SpawnArea _spawnArea;
     private Touch _touch;
 
-    private bool _startedFixedUpdate;
+    private bool _startedFalling;
     private GameObject _lowestPositionObject;
 
     private bool _startedFollowingTouch;
@@ -35,7 +35,7 @@ public class Blocks : MonoBehaviour
     }
     private void Start()
     {
-        _startedFixedUpdate = true;
+        _startedFalling = true;
         _platform = GameObject.Find("Platform");
         try
         {
@@ -55,14 +55,22 @@ public class Blocks : MonoBehaviour
         
         if (other.gameObject.CompareTag("platform"))
         {
-            _startedFixedUpdate = false;
             gameObject.transform.SetParent(_platform.transform);
             _spawnArea.BlockPlacedToPlatform_StartedSpawningBlock = true;
             tag = "platform";
-            _startedFollowingTouch = false;
             CameraMovement.Scaled = false;
         }
     }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("platform"))
+        {
+            _startedFalling = false;
+            _startedFollowingTouch = false;
+        }
+    }
+
     private void OnEnable()
     {
         FixedUpdate();
@@ -77,7 +85,7 @@ public class Blocks : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (_startedFixedUpdate)
+        if (_startedFalling)
         {
             _rb.MovePosition(_rb.position + new Vector2(0,-1) * Time.fixedDeltaTime);
         }
@@ -93,7 +101,9 @@ public class Blocks : MonoBehaviour
 
     private void FollowTouchInput()
     {
-        _blockStopVector = new Vector3(transform.position.x, (Screen.height / 10) * 7, transform.position.z);
+        Vector3 _pos;
+        _pos = transform.position;
+        _blockStopVector = new Vector3( _pos.x, (Screen.height / 10) * 7, _pos.z);
         if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(_blockStopVector).y)
         {
             ChangeObjectsPosition();
@@ -112,7 +122,7 @@ public class Blocks : MonoBehaviour
         gameObject.transform.position = _objPos;
     }
 
-    public float GetSnappingValue(float number)
+    private float GetSnappingValue(float number)
     {
         float snappingFractional = 0;
         float floored = Mathf.Floor(number);
