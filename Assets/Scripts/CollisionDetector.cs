@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class CollisionDetector : MonoBehaviour
 {
-    // this script is in blocks' prefabs.
+    // this is for Camera Movement
+    // this script is in blocks' prefabs. Block parent object
     
     private GameObject CameraFollowingParent;
     private CameraMovement _cameraMovement;

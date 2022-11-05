@@ -49,6 +49,10 @@ public class CameraMovement : MonoBehaviour
         {
             blocks.gameObject.transform.localScale = vector3;
         }
+        //foreach (Transform children in rootObjectOfEnemy.transform.GetComponentsInChildren<Transform>())
+        //{
+        //    children.gameObject.layer = XrayLayerValue;
+        //}
     }
 
 }

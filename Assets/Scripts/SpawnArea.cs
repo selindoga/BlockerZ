@@ -34,7 +34,10 @@ public class SpawnArea : MonoBehaviour
                 yield return new WaitForSeconds(.4f); // platform turning must be at most 0.5 seconds
                 int i = Random.Range(0, 2); // if written Random.Range for int the max value is exclusive
                 Instantiate(ArrayOfBlocks[i], transform.position, Quaternion.identity);
-                _blockPlacedToPlatform_StartedSpawningBlock = false; 
+                //BlocksEdgeColliders.ChangesCollidersActivity = true;
+                //BlocksEdgeColliders.HorizontalCollidersActive = ! BlocksEdgeColliders.HorizontalCollidersActive;
+                //BlocksEdgeColliders.ChangesCollidersActivity = true;
+                _blockPlacedToPlatform_StartedSpawningBlock = false;
                     // _blockPlacedToPlatform_StartedSpawningBlock becomes false right after the spawning of a block
                 yield return null;
             }

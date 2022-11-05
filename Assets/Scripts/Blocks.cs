@@ -15,18 +15,19 @@ public class Blocks : MonoBehaviour
 
     private Rigidbody2D _rb;
     private GameObject _platform;
-    private SpawnArea _spawnArea;
-    private Touch _touch;
-
-    private bool _startedFalling;
     private GameObject _lowestPositionObject;
+    private SpawnArea _spawnArea;
 
-    private bool _startedFollowingTouch;
+    private Touch _touch;
     private Vector3 _blockStopVector;
     private Vector3 _screenPos;
     private Vector3 _worldPos;
     private Vector3 _objPos;
     
+    private bool _isFollowingTouchPosition;
+    private bool _isFalling;
+    private bool _inTouchableArea;
+
     private void Awake()
     {
         // instead of _spawnArea = new SpawnArea(); because it cannot be written like this
@@ -35,7 +36,7 @@ public class Blocks : MonoBehaviour
     }
     private void Start()
     {
-        _startedFalling = true;
+        _isFalling = true;
         _platform = GameObject.Find("Platform");
         try
         {
@@ -49,25 +50,16 @@ public class Blocks : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        // in the future todo:
-        // check if other is the platform or its children that it should collide with,
-        // if I happen to add more different objects near to the platform
-        
-        if (other.gameObject.CompareTag("platform"))
+        if (!gameObject.CompareTag("platform") && other.gameObject.CompareTag("platform"))
         {
             gameObject.transform.SetParent(_platform.transform);
             _spawnArea.BlockPlacedToPlatform_StartedSpawningBlock = true;
             tag = "platform";
             CameraMovement.Scaled = false;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("platform"))
-        {
-            _startedFalling = false;
-            _startedFollowingTouch = false;
+            _isFalling = false; 
+            // block un child olduğu kısmı incele 
+            // bu _isFalling false olduktan sonra child olmalı 
+            _isFollowingTouchPosition = false;
         }
     }
 
@@ -75,17 +67,17 @@ public class Blocks : MonoBehaviour
     {
         FixedUpdate();
         StartCoroutine(Wait()); // start following the touch after some time
-        Update();
+        //Update();
     }
     private IEnumerator Wait() 
     {
         yield return new WaitForSeconds(.3f); // the waiting time to start following the touch
         // the time can be changed later
-        _startedFollowingTouch = true;
+        _isFollowingTouchPosition = true;
     }
     private void FixedUpdate()
     {
-        if (_startedFalling)
+        if (_isFalling)
         {
             _rb.MovePosition(_rb.position + new Vector2(0,-1) * Time.fixedDeltaTime);
         }
@@ -93,18 +85,13 @@ public class Blocks : MonoBehaviour
     // just for the sake of the code quality todo: I have to change this Update() function below to a coroutine instead.
     private void Update()
     {
-        if ((Input.GetMouseButton(0) || Input.touchCount > 0) && (GameManager.inSceneB && _startedFollowingTouch))
-        {
-            FollowTouchInput();
-        }
-    }
-
-    private void FollowTouchInput()
-    {
-        Vector3 _pos;
-        _pos = transform.position;
-        _blockStopVector = new Vector3( _pos.x, (Screen.height / 10) * 7, _pos.z);
-        if (_lowestPositionObject.transform.position.y >= Camera.main.ScreenToWorldPoint(_blockStopVector).y)
+        Vector3 pos = transform.position;
+        _blockStopVector = new Vector3( pos.x, (Screen.height / 10) * 7, pos.z);
+        _inTouchableArea = _lowestPositionObject.transform.position.y >=
+                                    Camera.main.ScreenToWorldPoint(_blockStopVector).y;
+        // Follow Touch Input
+        if ((Input.GetMouseButton(0) || Input.touchCount > 0) &&
+            (GameManager.inSceneB && _isFollowingTouchPosition) && _inTouchableArea)
         {
             ChangeObjectsPosition();
         }
